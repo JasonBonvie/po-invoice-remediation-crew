@@ -3,6 +3,7 @@ from typing import Type
 from pydantic import BaseModel, Field
 from markitdown import MarkItDown
 import os
+import re
 
 
 class MarkItDownToolInput(BaseModel):

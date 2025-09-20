@@ -4,7 +4,7 @@ from crewai import LLM
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import (VisionTool)
-from po_invoice_discrepancy_analyzer.tools.custom_tool import MarkItDownTool
+from po_invoice_discrepancy_analyzer.tools.textract_tool import TextractTool
 
 
 from crewai_tools import CrewaiEnterpriseTools
@@ -25,7 +25,7 @@ class PoInvoiceDiscrepancyAnalyzerCrew:
             
             
             tools=[
-                MarkItDownTool()
+                TextractTool()
             ],
             reasoning=False,
             max_reasoning_attempts=None,

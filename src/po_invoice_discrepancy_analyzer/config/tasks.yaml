@@ -1,14 +1,13 @@
 ---
 extract_documents_text:
   description: Process both the Purchase Order document from {po_file_path} and Invoice
-    document from {invoice_file_path} using the markitdown_converter tool. This tool
-    can handle various file formats including PDF, Word, Excel, PowerPoint, images,
-    and other document types. Convert both documents to markdown format while preserving
-    the original structure and formatting for accurate data extraction. Use the markitdown_converter
-    tool with the provided file paths to extract text content from both documents.
-  expected_output: Markdown content of both documents with clear separation - Invoice
-    document content followed by Purchase Order document content, ready for structured
-    data extraction
+    document from {invoice_file_path} using the textract_document_analyzer tool. This tool
+    uses Amazon Textract to extract structured data including text, tables, forms, and
+    key-value pairs while preserving document structure and formatting. Use the textract_document_analyzer
+    tool with the provided file paths to analyze both documents and extract structured content.
+  expected_output: Structured analysis of both documents with preserved formatting - Invoice
+    document analysis followed by Purchase Order document analysis, including tables,
+    forms, and key-value pairs ready for structured data extraction
   agent: document_ocr_processor
 
 parse_po_data:
