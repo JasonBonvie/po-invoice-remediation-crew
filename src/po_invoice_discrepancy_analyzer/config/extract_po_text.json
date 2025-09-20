@@ -1,0 +1,1 @@
+{"type":"object","title":"Response Format","required":[],"properties":{"Line item":{"type":"object","properties":{"Price":{"type":"string"},"Quantity":{"type":"string"},"Description":{"type":"string"}}},"PO Number":{"type":"string"}}}

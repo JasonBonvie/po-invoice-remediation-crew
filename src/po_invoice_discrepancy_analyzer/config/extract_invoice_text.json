@@ -1,0 +1,1 @@
+{"type":"object","title":"Response Format","required":[],"properties":{"Line Item":{"type":"object","properties":{"Price":{"type":"string"},"Quantity":{"type":"string"},"description":{"type":"string"}}},"Invoice Number":{"type":"string"}}}

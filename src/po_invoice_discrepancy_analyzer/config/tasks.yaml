@@ -1,0 +1,65 @@
+---
+extract_documents_text:
+  description: Process both the Purchase Order document from {po_file_path} and Invoice
+    document from {invoice_file_path} using the markitdown_converter tool. This tool
+    can handle various file formats including PDF, Word, Excel, PowerPoint, images,
+    and other document types. Convert both documents to markdown format while preserving
+    the original structure and formatting for accurate data extraction. Use the markitdown_converter
+    tool with the provided file paths to extract text content from both documents.
+  expected_output: Markdown content of both documents with clear separation - Invoice
+    document content followed by Purchase Order document content, ready for structured
+    data extraction
+  agent: document_ocr_processor
+
+parse_po_data:
+  description: 'Analyze the Purchase Order section from the markdown content to identify
+    and extract structured data including: PO number, vendor information, line items
+    with item codes/descriptions, quantities, unit prices, line totals, and overall
+    document total. Focus on the "PURCHASE ORDER DOCUMENT" section of the markdown
+    output. Present the data in a structured JSON format for comparison.'
+  expected_output: Structured JSON containing PO number, vendor details, and line
+    items with quantities, descriptions, unit prices, and totals
+  agent: po_data_extractor
+  context:
+  - extract_documents_text
+
+
+parse_invoice_data:
+  description: 'Analyze the Invoice section from the markdown content to identify
+    and extract structured data including: invoice number, vendor information, line
+    items with item codes/descriptions, quantities, unit prices, line totals, and
+    overall document total. Focus on the "INVOICE DOCUMENT" section of the markdown
+    output. Present the data in a structured JSON format for comparison.'
+  expected_output: Structured JSON containing invoice number, vendor details, and
+    line items with quantities, descriptions, unit prices, and totals
+  agent: invoice_data_extractor
+  context:
+  - extract_documents_text
+
+
+analyze_discrepancies:
+  description: Compare the structured PO and Invoice data to identify discrepancies
+    in line items, quantities, unit prices, and totals. Categorize discrepancies by
+    type (quantity mismatch, price difference, missing items, additional items) and
+    severity (critical, high, medium, low). Provide remediation recommendations for
+    each discrepancy found.
+  expected_output: Detailed discrepancy analysis report in JSON format with categorized
+    issues, severity levels, and recommended actions for each discrepancy
+  agent: document_discrepancy_analyst
+  context:
+  - parse_po_data
+  - parse_invoice_data
+
+
+send_email_report:
+  description: 'Create and send a comprehensive discrepancy report via Gmail to {recipient_email}.
+    Format the email with a clear subject line indicating PO/Invoice discrepancy analysis.
+    Structure the email body with: executive summary, document details (PO vs Invoice),
+    critical discrepancies requiring immediate attention, detailed discrepancy breakdown
+    with line-by-line analysis, and recommended next actions. Use professional formatting
+    to make the information easily scannable.'
+  expected_output: Professional email sent to the specified recipient containing discrepancy
+    summary, detailed findings, and action items for review and resolution
+  agent: email_reporter
+  context:
+  - analyze_discrepancies
